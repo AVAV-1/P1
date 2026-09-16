@@ -1,11 +1,11 @@
 # Tiny Tapeout project information
 project:
   title:        "2nd Order IIR Biquad Filter"
-  author:       "Your Name"
-  discord:      "your_discord_username"
+  author:       "ARYA VARDHAN"
+  discord:      "P1"
   description:  "Hardware implementation of a second-order IIR biquad digital filter"
   language:     "Verilog"
-  clock_hz:     10000000
+  clock_hz:     5000
 
   # How many tiles your design occupies?
   tiles: "1x1"
