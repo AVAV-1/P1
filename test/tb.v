@@ -2,14 +2,7 @@
 `timescale 1ns / 1ps
 
 /*
- * Testbench for 2nd Order IIR Biquad Filter
- *
- * This testbench:
- *  - Generates the clock
- *  - Generates reset
- *  - Enables the design
- *  - Applies an impulse input
- *  - Dumps waveforms to tb.fst
+ * Testbench for Tiny Tapeout 2nd Order IIR Biquad Filter
  */
 
 module tb ();
@@ -60,7 +53,7 @@ module tb ();
 
   // ============================================================
   // Clock generation
-  // 10 ns period = 100 MHz
+  // 10 ns period
   // ============================================================
 
   initial begin
@@ -76,104 +69,100 @@ module tb ();
 
   initial begin
 
-    // Initial values
+    // Initial conditions
     rst_n  = 1'b0;
     ena    = 1'b1;
     ui_in  = 8'd0;
     uio_in = 8'd0;
 
 
-    // ------------------------------------------------------------
+    // ==========================================================
     // RESET
-    // ------------------------------------------------------------
+    // ==========================================================
+
+    $display("----------------------------------------");
+    $display("Resetting IIR Biquad Filter");
+    $display("----------------------------------------");
 
     #20;
 
     rst_n = 1'b1;
 
-
-    // ------------------------------------------------------------
-    // IMPULSE INPUT
-    // ------------------------------------------------------------
-    //
-    // Input sequence:
-    //
-    // 100, 0, 0, 0, 0, 0, ...
-    //
-    // This is useful for observing the IIR impulse response.
-    // ------------------------------------------------------------
-
     @(posedge clk);
+
+
+    // ==========================================================
+    // IMPULSE RESPONSE
+    // ==========================================================
+
+    $display("");
+    $display("----------------------------------------");
+    $display("IIR BIQUAD IMPULSE RESPONSE");
+    $display("----------------------------------------");
+    $display("Input\tOutput");
+
+
+    // First sample = impulse
     ui_in = 8'd100;
 
     @(posedge clk);
+    #1;
+
+    $display("%d\t%d", ui_in, $signed(uo_out));
+
+
+    // Remaining samples = zero
     ui_in = 8'd0;
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
     @(posedge clk);
-    ui_in = 8'd0;
-
-    @(posedge clk);
-    ui_in = 8'd0;
-
-    @(posedge clk);
-    ui_in = 8'd0;
-
-    @(posedge clk);
-    ui_in = 8'd0;
-
-    @(posedge clk);
-    ui_in = 8'd0;
+    #1;
+    $display("%d\t%d", ui_in, $signed(uo_out));
 
 
-    // ------------------------------------------------------------
-    // End simulation
-    // ------------------------------------------------------------
+    // ==========================================================
+    // END SIMULATION
+    // ==========================================================
+
+    $display("");
+    $display("----------------------------------------");
+    $display("Simulation completed");
+    $display("----------------------------------------");
 
     #20;
 
     $finish;
-
-  end
-
-
-  // ============================================================
-  // Display values in terminal
-  // ============================================================
-
-  initial begin
-
-    $monitor(
-      "Time=%0t ns | rst_n=%b | ena=%b | input=%d | output=%d",
-      $time,
-      rst_n,
-      ena,
-      $signed(ui_in),
-      $signed(uo_out)
-    );
 
   end
 
